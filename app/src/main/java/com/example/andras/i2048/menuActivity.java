@@ -32,6 +32,24 @@ public class menuActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+        Button LB = (Button)findViewById(R.id.leaderboard);
+        LB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(v.getContext(), leaderboardActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button PLAY = (Button)findViewById(R.id.play);
+        PLAY.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(v.getContext(),playActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

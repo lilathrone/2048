@@ -57,12 +57,11 @@ public class DrawView extends View {
         }
 
         Random r = new Random();
-        int randomPozX = r.nextInt(4); //random x pozicio
-        int randomPozY = r.nextInt(4); //random y pozicio
-        int randomChance = r.nextInt(10); //random esely (2 v 4)
+        int randomPoz = r.nextInt(emptyX.size()); //random pozicio a listabol
+        int randomChance = r.nextInt(10); //random szam az eselyhez (2 v 4)
 
         //ures mezok kozul a random helyre beszuras
-        gameBoard[emptyX.get(randomPozX)][emptyY.get(randomPozY)] = randomChance < 6 ? 2 : 4; //60% valoszinuseggel 2, 40% 4 spawnol
+        gameBoard[emptyX.get(randomPoz)][emptyY.get(randomPoz)] = randomChance < 6 ? 2 : 4; //60% valoszinuseggel 2, 40% 4 spawnol
     }
 
     public DrawView(Context context) {

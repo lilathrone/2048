@@ -13,6 +13,7 @@
     android:padding="0dp">
 
     <com.example.andras.i2048.DrawView
+        android:id="@+id/GameView"
         android:layout_margin="0dp"
         android:padding="0dp"
         android:layout_width="match_parent"

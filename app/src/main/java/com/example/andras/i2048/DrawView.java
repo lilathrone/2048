@@ -18,9 +18,10 @@ public class DrawView extends View {
     int[][] gameBoard = new int[4][4]; //jatekter
     int score = 0; //pontok
     boolean gameOver = false; //vege van?
+    boolean start = true; //start - restart
 
     //jatek inicializalasa
-    protected void InitTable()
+    public void InitTable()
     {
         gameOver = false;
         score = 0;
@@ -39,7 +40,7 @@ public class DrawView extends View {
         Spawn();
     }
 
-    protected void Spawn()
+    public void Spawn()
     {
         //ures mezok megkeresese es listaba toltese
         ArrayList<Integer> emptyX = new ArrayList<Integer>();
@@ -80,7 +81,12 @@ public class DrawView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        InitTable();
+        //InitTable();
+        if (start)
+        {
+            InitTable();
+            start = false;
+        }
 
         //jatektabla - hatter
         Rect board = new Rect();
@@ -120,7 +126,7 @@ public class DrawView extends View {
                     paint.setTypeface(Typeface.DEFAULT_BOLD);
                     paint.setTextSize(50); //hardcode lehet kene finomitani
 
-                    canvas.drawText("" + gameBoard[i][j], slot.centerX(), slot.centerY(), paint);
+                    canvas.drawText("" + gameBoard[i][j], slot.centerX(), slot.centerY()+20, paint);
                 }
             }
         }
@@ -138,6 +144,7 @@ public class DrawView extends View {
             p.setAlpha(100);
             paintScore.setColor(Color.BLACK);
             paintScore.setTextAlign(Paint.Align.CENTER);
+            paintScore.setTextSize(20);
             canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight()/2 + 100, p);
             canvas.drawText("Game Over, your score:" + score, canvas.getWidth()/2 , canvas.getHeight()/4, paintScore);
 

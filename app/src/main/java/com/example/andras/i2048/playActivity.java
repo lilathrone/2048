@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 public class playActivity extends ActionBarActivity {
 
+    int End;
+    DrawView DW;
+    Button UP, DOWN, RIGHT, LEFT;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,22 +33,63 @@ public class playActivity extends ActionBarActivity {
 
                         switch (which)
                         {
-                            case 0: text="1024";
+                            case 0: text = "1024";
+                                End = 1024;
                                 break;
-                            case 1: text="2024";
+                            case 1: text = "2024";
+                                End = 2048;
                                 break;
-                            case 2: text="Endless";
+                            case 2: text = "Endless";
+                                End = -1;
                                 break;
                         }
 
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
+                        Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
         builder.create();
         builder.show();
 
+        DW = (DrawView) findViewById(R.id.GameView);
+
+        UP = (Button) findViewById(R.id.fel);
+        UP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DW.Spawn();
+                DW.invalidate();
+            }
+        });
+
+        DOWN = (Button) findViewById(R.id.le);
+        DOWN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DW.gameOver = true;
+                DW.invalidate();
+            }
+        });
+
+        RIGHT = (Button) findViewById(R.id.jobbra);
+        RIGHT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DW.score += 10;
+                DW.invalidate();
+            }
+        });
+
+        LEFT = (Button) findViewById(R.id.balra);
+        LEFT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DW.score != 0)
+                {
+                    DW.score -= 10;
+                    DW.invalidate();
+                }
+            }
+        });
     }
 }

@@ -20,6 +20,8 @@ public class DrawView extends View {
     boolean gameOver = false; //vege van?
     boolean start = true; //start - restart
 
+    //szia Robi!!
+
     //jatek inicializalasa
     public void InitTable()
     {
@@ -136,7 +138,6 @@ public class DrawView extends View {
         paintScore.setTypeface(Typeface.DEFAULT_BOLD);
         paintScore.setTextSize(50);
         canvas.drawText("Score: " + score, 0, canvas.getHeight()/2 + 50, paintScore);
-        int test = 0;
         //jatek vege - kep elhalvanyul - score ki
         if (gameOver)
         {

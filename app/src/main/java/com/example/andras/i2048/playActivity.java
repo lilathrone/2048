@@ -57,8 +57,9 @@ public class playActivity extends ActionBarActivity {
         UP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DW.Spawn();
+                DW.DoUp();
                 DW.invalidate();
+                DW.Spawn();
             }
         });
 
@@ -67,7 +68,8 @@ public class playActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //DW.gameOver = true;
-
+                DW.DoDown();
+                DW.Spawn();
                 DW.invalidate();
             }
         });
@@ -77,6 +79,8 @@ public class playActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 DW.score += 10;
+                DW.DoRight();
+                DW.Spawn();
                 DW.invalidate();
             }
         });
@@ -88,8 +92,10 @@ public class playActivity extends ActionBarActivity {
                 if (DW.score != 0)
                 {
                     DW.DoLeft();
+                    DW.Spawn();
                     //DW.score -= 10;
                     DW.invalidate();
+
                 }
             }
         });

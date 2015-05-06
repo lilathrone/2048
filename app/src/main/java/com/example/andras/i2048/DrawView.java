@@ -101,6 +101,143 @@ public class DrawView extends View {
         ClearMask_capStep();
     }
 
+    public void DoUp()
+    {
+        boolean isFinished = false;
+        while (!isFinished)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    UpStep(i, j);
+                }
+            }
+            //Draw();
+            isFinished = true;
+            for (int[] array : canStep)
+            {
+                for (int item : array)
+                    if (item == 1)
+                        isFinished = false;
+            }
+        }
+        ClearMask_capStep();
+    }
+
+    public void DoDown()
+    {
+        boolean isFinished = false;
+        while (!isFinished)
+        {
+            for (int i = 3; i > -1; i--)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    DownStep(i, j);
+                }
+            }
+            //Draw();
+            isFinished = true;
+            for (int[] array : canStep)
+            {
+                for (int item : array)
+                    if (item == 1)
+                        isFinished = false;
+            }
+        }
+        ClearMask_capStep();
+    }
+
+    private void DownStep(int i, int j)
+    {
+        if (i < 3 && gameBoard[i + 1][j] == gameBoard[i][j] && mask[i + 1][j] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1)
+        {
+            gameBoard[i + 1][j] += gameBoard[i][j];
+            gameBoard[i][j] = 0;
+            mask[i + 1][j] = -1;
+            canStep[i][j] = 1;
+        }
+        else if (i < 3 && gameBoard[i + 1][j] == 0 && gameBoard[i][j] != 0)
+        {
+            gameBoard[i + 1][j] = gameBoard[i][j];
+            gameBoard[i][j] = 0;
+            canStep[i][j] = 1;
+            mask[i + 1][j] = mask[i][j];
+        }
+        else
+        {
+            canStep[i][j] = 0;
+        }
+    }
+    public void DoRight()
+    {
+        boolean isFinished = false;
+        while (!isFinished)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 3; j > -1; j--)
+                {
+                    RightStep(i, j);
+                }
+            }
+            //Draw();
+            isFinished = true;
+            for (int[] array : canStep)
+            {
+                for (int item : array)
+                    if (item == 1)
+                        isFinished = false;
+            }
+        }
+        ClearMask_capStep();
+    }
+
+    private void RightStep(int i, int j)
+    {
+        if (j < 3 && gameBoard[i][j + 1] == gameBoard[i][j] && mask[i][j + 1] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1)
+        {
+            gameBoard[i][j + 1] += gameBoard[i][j];
+            gameBoard[i][j] = 0;
+            mask[i][j + 1] = -1;
+            canStep[i][j] = 1;
+        }
+        else if (j < 3 && gameBoard[i][j + 1] == 0 && gameBoard[i][j] != 0)
+        {
+            gameBoard[i][j + 1] = gameBoard[i][j];
+            gameBoard[i][j] = 0;
+            canStep[i][j] = 1;
+            mask[i][j + 1] = mask[i][j];
+        }
+        else
+        {
+            canStep[i][j] = 0;
+        }
+    }
+
+    private void UpStep(int i, int j)
+    {
+        //ha mellette összevonás van
+        if (i > 0 && gameBoard[i-1][j] == gameBoard[i][j] && mask[i-1][j] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1)
+        {
+            gameBoard[i-1][j] += gameBoard[i][j];
+            gameBoard[i][j] = 0;
+            mask[i-1][j] = -1;
+            canStep[i][j] = 1;
+        }
+        else if (i > 0 && gameBoard[i-1][j] == 0 && gameBoard[i][j] != 0)
+        {
+            gameBoard[i-1][j] = gameBoard[i][j];
+            gameBoard[i][j] = 0;
+            canStep[i][j] = 1;
+            mask[i - 1][j] = mask[i][j];
+        }
+        else
+        {
+            canStep[i][j] = 0;
+        }
+    }
     public void LeftStep(int i, int j)
     {
         //ha mellette összevonás van

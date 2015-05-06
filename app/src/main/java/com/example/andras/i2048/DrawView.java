@@ -16,6 +16,8 @@ import java.util.Random;
 public class DrawView extends View {
 
     int[][] gameBoard = new int[4][4]; //jatekter
+    int[][] mask = new int[4][4]; //jatekterre maszk, ahhoz kell, hogy egy lépésben ne lehessen több összevonás
+    int[][] canStep = new int[4][4]; //Léptetéshez
     int score = 0; //pontok
     boolean gameOver = false; //vege van?
     boolean start = true; //start - restart
@@ -37,9 +39,89 @@ public class DrawView extends View {
             }
         }
 
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                canStep[i][j] = 0;
+            }
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                mask[i][j] = 0;
+            }
+        }
         //2 random kezdomezo
         Spawn();
         Spawn();
+    }
+
+    private void ClearMask_capStep()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                mask[i][j] = 0;
+            }
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                canStep[i][j] = 1;
+            }
+        }
+    }
+
+    public void DoLeft()
+    {
+        boolean isFinished = false;
+        while (!isFinished)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    LeftStep(i, j);
+                }
+            }
+            //Draw();
+            isFinished = true;
+            for (int[] array : canStep)
+            {
+                for (int item : array)
+                if (item == 1)
+                    isFinished = false;
+            }
+        }
+        ClearMask_capStep();
+    }
+
+    public void LeftStep(int i, int j)
+    {
+        //ha mellette összevonás van
+        if (j > 0 && gameBoard[i][j-1] == gameBoard[i][j] && mask[i][j-1] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1)
+        {
+            gameBoard[i][j-1] += gameBoard[i][j];
+            gameBoard[i][j] = 0;
+            mask[i][j-1] = -1;
+            canStep[i][j] = 1;
+        }
+        else if (j > 0 && gameBoard[i][j-1] == 0 && gameBoard[i][j] != 0)
+        {
+            gameBoard[i][j-1] = gameBoard[i][j];
+            gameBoard[i][j] = 0;
+            canStep[i][j] = 1;
+            mask[i][j - 1] = mask[i][j];
+        }
+        else
+        {
+            canStep[i][j] = 0;
+        }
     }
 
     public void Spawn()

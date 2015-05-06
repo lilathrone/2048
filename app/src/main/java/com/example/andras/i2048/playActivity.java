@@ -66,7 +66,8 @@ public class playActivity extends ActionBarActivity {
         DOWN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DW.gameOver = true;
+                //DW.gameOver = true;
+
                 DW.invalidate();
             }
         });
@@ -86,7 +87,8 @@ public class playActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (DW.score != 0)
                 {
-                    DW.score -= 10;
+                    DW.DoLeft();
+                    //DW.score -= 10;
                     DW.invalidate();
                 }
             }

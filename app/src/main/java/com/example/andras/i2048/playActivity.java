@@ -138,7 +138,7 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         //sensorManager.registerListener(this, Gyro, SensorManager.SENSOR_DELAY_NORMAL );
         //sensorManager.registerListener(this, gyro, sensorManager.SENSOR_DELAY_NORMAL);
-    }
+           }
 
     @Override
     protected void onPause() {

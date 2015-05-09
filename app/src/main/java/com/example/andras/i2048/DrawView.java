@@ -174,6 +174,7 @@ public class DrawView extends View {
         {
             voltMozgas = true; //Van mozgás, tehát majd érvényes volt a lépés, spawnolni kell új mezőt majd az iteráció végén
             gameBoard[i + 1][j] += gameBoard[i][j]; //összevonás
+            score += gameBoard[i][j]; //Pontszám növelés
             gameBoard[i][j] = 0; //Jelenlegi mező kinullázása
             mask[i + 1][j] = -1; //Maszk tömbön jelezni kell, hogy a szomszédos elemet már nem lehet felülírni mégegyszer
             canStep[i][j] = 1; //Lehet még mozgás a tömbben ezen lépésen belül
@@ -224,6 +225,7 @@ public class DrawView extends View {
         {
             voltMozgas = true;
             gameBoard[i][j + 1] += gameBoard[i][j];
+            score += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i][j + 1] = -1;
             canStep[i][j] = 1;
@@ -250,6 +252,7 @@ public class DrawView extends View {
         {
             voltMozgas = true;
             gameBoard[i-1][j] += gameBoard[i][j];
+            score += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i-1][j] = -1;
             canStep[i][j] = 1;
@@ -275,6 +278,7 @@ public class DrawView extends View {
         {
             voltMozgas = true;
             gameBoard[i][j-1] += gameBoard[i][j];
+            score += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i][j-1] = -1;
             canStep[i][j] = 1;

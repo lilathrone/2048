@@ -24,12 +24,14 @@ public class DrawView extends View {
     int gamemode;
     int score = 0; //pontok
     boolean gameOver = false; //vege van?
+    boolean win = false;
     boolean start = true; //start - restart
 
 
     //jatek inicializalasa
     public void InitTable() {
         gameOver = false;
+        win = false;
         score = 0;
         gameBoard = new int[4][4];
 
@@ -147,10 +149,14 @@ public class DrawView extends View {
         if (i < 3 && gameBoard[i + 1][j] == gameBoard[i][j] && mask[i + 1][j] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1) {
             voltMozgas = true; //Van mozgás, tehát majd érvényes volt a lépés, spawnolni kell új mezőt majd az iteráció végén
             gameBoard[i + 1][j] += gameBoard[i][j]; //összevonás
-            if (gamemode == 1024)
-                if (gameOver = gameBoard[i + 1][j] == 1024) gameOver = true;
-            else if (gamemode == 2048)
-                    if (gameOver = gameBoard[i + 1][j] == 2048) gameOver = true;
+            if (gamemode == 1024) {
+                if (gameBoard[i + 1][j] == 1024)
+                    win = true;
+            }
+            else if (gamemode == 2048) {
+                if (gameBoard[i + 1][j] == 2048)
+                    win = true;
+            }
             score += gameBoard[i][j]; //Pontszám növelés
             gameBoard[i][j] = 0; //Jelenlegi mező kinullázása
             mask[i + 1][j] = -1; //Maszk tömbön jelezni kell, hogy a szomszédos elemet már nem lehet felülírni mégegyszer
@@ -193,10 +199,14 @@ public class DrawView extends View {
         if (j < 3 && gameBoard[i][j + 1] == gameBoard[i][j] && mask[i][j + 1] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1) {
             voltMozgas = true;
             gameBoard[i][j + 1] += gameBoard[i][j];
-            if (gamemode == 1024)
-                if (gameOver = gameBoard[i][j+1] == 1024) gameOver = true;
-            else if (gamemode == 2048)
-                    if (gameOver = gameBoard[i][j+1] == 2048) gameOver = true;
+            if (gamemode == 1024) {
+                if (gameBoard[i][j + 1] == 1024)
+                    win = true;
+            }
+            else if (gamemode == 2048) {
+                if (gameBoard[i][j + 1] == 2048)
+                    win = true;
+            }
             score += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i][j + 1] = -1;
@@ -218,10 +228,14 @@ public class DrawView extends View {
         if (i > 0 && gameBoard[i - 1][j] == gameBoard[i][j] && mask[i - 1][j] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1) {
             voltMozgas = true;
             gameBoard[i - 1][j] += gameBoard[i][j];
-            if (gamemode == 1024)
-                if (gameOver = gameBoard[i - 1][j] == 1024) gameOver = true;
-            else if (gamemode == 2048)
-                if (gameOver = gameBoard[i - 1][j] == 2048) gameOver = true;
+            if (gamemode == 1024) {
+                if (gameBoard[i - 1][j] == 1024)
+                    win = true;
+            }
+            else if (gamemode == 2048) {
+                if (gameBoard[i - 1][j] == 2048)
+                    win = true;
+            }
             score += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i - 1][j] = -1;
@@ -243,10 +257,14 @@ public class DrawView extends View {
         if (j > 0 && gameBoard[i][j - 1] == gameBoard[i][j] && mask[i][j - 1] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1) {
             voltMozgas = true;
             gameBoard[i][j - 1] += gameBoard[i][j];
-            if (gamemode == 1024)
-                if (gameOver = gameBoard[i][j-1] == 1024) gameOver = true;
-            else if (gamemode == 2048)
-                 if (gameOver = gameBoard[i][j-1] == 2048) gameOver = true;
+            if (gamemode == 1024){
+                if (gameBoard[i][j-1] == 1024)
+                    win = true;
+            }
+            else if (gamemode == 2048) {
+                if (gameBoard[i][j - 1] == 2048)
+                    win = true;
+            }
             score += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i][j - 1] = -1;
@@ -394,6 +412,31 @@ public class DrawView extends View {
             paintScore.setTextSize(20);
             canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight() / 2 + 100, p);
             canvas.drawText("Game Over, your score:" + score, canvas.getWidth()/2 , canvas.getHeight()/4, paintScore);
+
+            //eredmenyek kiirsa belso taraloba
+            String filePath = getContext().getFilesDir().toString() + "/scores.txt";
+            try
+            {
+                FileOutputStream outputStream = new FileOutputStream(filePath, true);
+                String Score = Integer.toString(score) + " "; //"space" elvalaszto karakter
+                outputStream.write(Score.getBytes());
+                outputStream.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if (win)
+        {
+            p.setColor(Color.WHITE);
+            p.setAlpha(100);
+            paintScore.setColor(Color.BLACK);
+            paintScore.setTextAlign(Paint.Align.CENTER);
+            paintScore.setTextSize(20);
+            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight() / 2 + 100, p);
+            canvas.drawText("Congratulations! You won!, your score:" + score, canvas.getWidth()/2 , canvas.getHeight()/4, paintScore);
 
             //eredmenyek kiirsa belso taraloba
             String filePath = getContext().getFilesDir().toString() + "/scores.txt";

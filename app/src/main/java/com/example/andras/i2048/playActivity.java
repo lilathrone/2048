@@ -56,7 +56,7 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
                                 break;
                         }
 
-                        Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(context, DW.gamemode + " mode", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });

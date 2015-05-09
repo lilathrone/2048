@@ -85,9 +85,10 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
         UP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DW.DoUp();
-                DW.invalidate();
+                if (DW.DoUp())
                 DW.Spawn();
+                DW.invalidate();
+
             }
         });
 
@@ -95,7 +96,7 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
         DOWN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DW.DoDown();
+                if (DW.DoDown())
                 DW.Spawn();
                 DW.invalidate();
             }
@@ -105,7 +106,7 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
         RIGHT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DW.DoRight();
+                if (DW.DoRight())
                 DW.Spawn();
                 DW.invalidate();
             }
@@ -115,7 +116,7 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
         LEFT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DW.DoLeft();
+                if (DW.DoLeft())
                 DW.Spawn();
                 DW.invalidate();
             }
@@ -125,7 +126,7 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-
+        //Gyro = (Sensor)sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         //gyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         //sensorManager.registerListener(this, gyro, sensorManager.SENSOR_DELAY_NORMAL);
     }
@@ -133,7 +134,9 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
+
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        //sensorManager.registerListener(this, Gyro, SensorManager.SENSOR_DELAY_NORMAL );
         //sensorManager.registerListener(this, gyro, sensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -148,10 +151,11 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
     private Sensor gyro;
 
     private long lastUpdate = 0;
-    private float last_x, last_y;
+    private float last_x, last_y, last_z;
     boolean Xback = false;
     boolean Yback = false;
 
+    int TimeToWait = 100;
     @Override
     public void onSensorChanged(SensorEvent event) {
         Sensor mySensor = event.sensor;
@@ -173,58 +177,55 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
         }
         */
 
+
         if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER && on) {
             float x = event.values[0];
             float y = event.values[1];
-
+            float z = event.values[2];
             long curTime = System.currentTimeMillis();
 
+
             //100msec elteltevel nezzuk csak ujra, allando ellenorzes helyett
-            if ((curTime - lastUpdate) > 100) {
+            if ((curTime - lastUpdate) > TimeToWait) {
+                TimeToWait = 100;
                 long diffTime = (curTime - lastUpdate);
                 lastUpdate = curTime;
-
-                if (Math.abs(last_x - x) > 3)
-                {
-                    if (last_x - x < -3 && !Xback)
-                    {
-                        DW.DoLeft();
+                if (Math.abs(last_x - x) > 2) {
+                    if (last_x - x < -2 && !Xback) {
+                        if (DW.DoLeft())
                         DW.Spawn();
                         DW.invalidate();
                         Xback = true;
-                    }
-                    else if (last_x - x > 3 && !Xback)
-                    {
-                        DW.DoRight();
+                        TimeToWait = 1500;
+                    } else if (last_x - x > 2 && !Xback) {
+                        if (DW.DoRight())
                         DW.Spawn();
                         DW.invalidate();
                         Xback = true;
-                    }
-                    else if (Xback)
+                        TimeToWait = 1500;
+                    } else if (Xback)
                         Xback = false;
-                }
-                else if (Math.abs(last_y - y) > 3)
-                {
-                    if (last_y - y < -3)
-                    {
-                        DW.DoDown();
+                } else if (Math.abs(last_y - y) > 2) {
+                    if (last_y - y < -2) {
+                        if (DW.DoDown())
                         DW.Spawn();
                         DW.invalidate();
                         Yback = true;
-                    }
-                    else if (last_y - y > 3)
-                    {
-                        DW.DoUp();
+                        TimeToWait = 1500;
+                    } else if (last_y - y > 2) {
+                        if (DW.DoUp())
                         DW.Spawn();
                         DW.invalidate();
                         Yback = true;
-                    }
-                    else
+                        TimeToWait = 1500;
+                    } else if (Yback)
                         Yback = false;
                 }
 
                 last_x = x;
                 last_y = y;
+                last_z = z;
+                lastUpdate = System.currentTimeMillis();
             }
         }
     }

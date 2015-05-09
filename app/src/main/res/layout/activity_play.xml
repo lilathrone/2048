@@ -26,7 +26,8 @@
         android:rowCount="3"
         android:columnCount="3"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:id="@+id/gridLayout">
 
 
         <Button

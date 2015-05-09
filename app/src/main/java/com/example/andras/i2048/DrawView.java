@@ -25,7 +25,6 @@ public class DrawView extends View {
     boolean gameOver = false; //vege van?
     boolean start = true; //start - restart
 
-    //szia Robi!!
 
     //jatek inicializalasa
     public void InitTable()
@@ -61,6 +60,7 @@ public class DrawView extends View {
         Spawn();
     }
 
+    //Maszk tömbök defaultra állítása
     private void ClearMask_capStep()
     {
         for (int i = 0; i < 4; i++)
@@ -80,8 +80,12 @@ public class DrawView extends View {
         }
     }
 
-    public void DoLeft()
+    //A DoLeft, DoDown, DoUp, DoRight metódusok nagyjából ugyanazt csinálják, a különbség, hogy
+    //a tömböt milyen irányból járják be és hogy melyik irányú mozgatást végrehajtó metódust hívnak meg
+    //a DoDown-nál van kikommentezve a működés
+    public boolean DoLeft()
     {
+        boolean voltMozgas = false;
         boolean isFinished = false;
         while (!isFinished)
         {
@@ -89,7 +93,7 @@ public class DrawView extends View {
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    LeftStep(i, j);
+                    voltMozgas = LeftStep(i, j, voltMozgas);
                 }
             }
             //Draw();
@@ -102,10 +106,12 @@ public class DrawView extends View {
             }
         }
         ClearMask_capStep();
+        return voltMozgas;
     }
 
-    public void DoUp()
+    public boolean DoUp()
     {
+        boolean voltMozgas = false;
         boolean isFinished = false;
         while (!isFinished)
         {
@@ -113,7 +119,7 @@ public class DrawView extends View {
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    UpStep(i, j);
+                    voltMozgas = UpStep(i, j,voltMozgas);
                 }
             }
             //Draw();
@@ -126,55 +132,69 @@ public class DrawView extends View {
             }
         }
         ClearMask_capStep();
+        return voltMozgas;
     }
 
-    public void DoDown()
+    //A játékos a lefele gombot nyomja, vagy lefele dönti a készüléket
+    public boolean DoDown()
     {
-        boolean isFinished = false;
-        while (!isFinished)
+        boolean voltMozgas = false; //Annak vizsgálatára, hogy történik e bármilyen mozgás a játéktéren
+        boolean isFinished = false; //Van e még mozgás a játéktéren
+        while (!isFinished) // Amíg még van / lehet mozgás
         {
+            //Tömbbejárás
             for (int i = 3; i > -1; i--)
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    DownStep(i, j);
+                    voltMozgas = DownStep(i, j, voltMozgas); //Elemek egyenkénti mozgatása
                 }
             }
             //Draw();
             isFinished = true;
+            //canStep tömb bejárása, ha valahol nem nulla (1), akkor újra be kell járni a tömböt
             for (int[] array : canStep)
             {
                 for (int item : array)
                     if (item == 1)
-                        isFinished = false;
+                        isFinished = false; //Ha volt mozgás, akkor megint be kell járni a tömböt
             }
         }
-        ClearMask_capStep();
+        ClearMask_capStep(); //Maszk tömbök defaultra állítása
+        return voltMozgas;
     }
 
-    private void DownStep(int i, int j)
+    //Tömb egy elemének mozgatása
+    //Rightstep, Upstep, Leftstep ugyanezt csinálja, csak más irányban
+     private boolean DownStep(int i, int j, boolean voltMozgas)
     {
+        //Ha még nincs a pálya szélén, a szomszédos mező megegyezik vele és ez a mező, illetve a szomszédos mező
+        //még nem lett felülírva ebben az iterációban
         if (i < 3 && gameBoard[i + 1][j] == gameBoard[i][j] && mask[i + 1][j] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1)
         {
-            gameBoard[i + 1][j] += gameBoard[i][j];
-            gameBoard[i][j] = 0;
-            mask[i + 1][j] = -1;
-            canStep[i][j] = 1;
-        }
+            voltMozgas = true; //Van mozgás, tehát majd érvényes volt a lépés, spawnolni kell új mezőt majd az iteráció végén
+            gameBoard[i + 1][j] += gameBoard[i][j]; //összevonás
+            gameBoard[i][j] = 0; //Jelenlegi mező kinullázása
+            mask[i + 1][j] = -1; //Maszk tömbön jelezni kell, hogy a szomszédos elemet már nem lehet felülírni mégegyszer
+            canStep[i][j] = 1; //Lehet még mozgás a tömbben ezen lépésen belül
+        } //Egyébként ha nincs a pálya szélén, de nem nulla értékű a tömbelem és mellette nulla van
         else if (i < 3 && gameBoard[i + 1][j] == 0 && gameBoard[i][j] != 0)
         {
-            gameBoard[i + 1][j] = gameBoard[i][j];
-            gameBoard[i][j] = 0;
-            canStep[i][j] = 1;
-            mask[i + 1][j] = mask[i][j];
+            voltMozgas = true; //Van mozgás
+            gameBoard[i + 1][j] = gameBoard[i][j]; // Elem odébb shiftelése
+            gameBoard[i][j] = 0; //jelenlegi pozíció kinullázása
+            canStep[i][j] = 1; //Lehet még mozgás
+            mask[i + 1][j] = mask[i][j]; //Ha ez már egy összevont elem volt, odébb kell menteni a maszkolt értékét
         }
         else
         {
-            canStep[i][j] = 0;
+            canStep[i][j] = 0; //Ha nem volt mozgatás
         }
+        return voltMozgas;
     }
-    public void DoRight()
+    public boolean DoRight()
     {
+        boolean voltMozgas = false;
         boolean isFinished = false;
         while (!isFinished)
         {
@@ -182,7 +202,7 @@ public class DrawView extends View {
             {
                 for (int j = 3; j > -1; j--)
                 {
-                    RightStep(i, j);
+                    voltMozgas =  RightStep(i, j, voltMozgas);
                 }
             }
             //Draw();
@@ -195,12 +215,14 @@ public class DrawView extends View {
             }
         }
         ClearMask_capStep();
+        return voltMozgas;
     }
 
-    private void RightStep(int i, int j)
+    private boolean RightStep(int i, int j, boolean voltMozgas)
     {
         if (j < 3 && gameBoard[i][j + 1] == gameBoard[i][j] && mask[i][j + 1] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1)
         {
+            voltMozgas = true;
             gameBoard[i][j + 1] += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i][j + 1] = -1;
@@ -208,6 +230,7 @@ public class DrawView extends View {
         }
         else if (j < 3 && gameBoard[i][j + 1] == 0 && gameBoard[i][j] != 0)
         {
+            voltMozgas = true;
             gameBoard[i][j + 1] = gameBoard[i][j];
             gameBoard[i][j] = 0;
             canStep[i][j] = 1;
@@ -217,13 +240,15 @@ public class DrawView extends View {
         {
             canStep[i][j] = 0;
         }
+        return voltMozgas;
     }
 
-    private void UpStep(int i, int j)
+    private boolean UpStep(int i, int j, boolean voltMozgas)
     {
         //ha mellette összevonás van
         if (i > 0 && gameBoard[i-1][j] == gameBoard[i][j] && mask[i-1][j] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1)
         {
+            voltMozgas = true;
             gameBoard[i-1][j] += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i-1][j] = -1;
@@ -231,6 +256,7 @@ public class DrawView extends View {
         }
         else if (i > 0 && gameBoard[i-1][j] == 0 && gameBoard[i][j] != 0)
         {
+            voltMozgas = true;
             gameBoard[i-1][j] = gameBoard[i][j];
             gameBoard[i][j] = 0;
             canStep[i][j] = 1;
@@ -240,12 +266,14 @@ public class DrawView extends View {
         {
             canStep[i][j] = 0;
         }
+        return voltMozgas;
     }
-    public void LeftStep(int i, int j)
+    public boolean LeftStep(int i, int j, boolean voltMozgas)
     {
         //ha mellette összevonás van
         if (j > 0 && gameBoard[i][j-1] == gameBoard[i][j] && mask[i][j-1] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1)
         {
+            voltMozgas = true;
             gameBoard[i][j-1] += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i][j-1] = -1;
@@ -253,6 +281,7 @@ public class DrawView extends View {
         }
         else if (j > 0 && gameBoard[i][j-1] == 0 && gameBoard[i][j] != 0)
         {
+            voltMozgas = true;
             gameBoard[i][j-1] = gameBoard[i][j];
             gameBoard[i][j] = 0;
             canStep[i][j] = 1;
@@ -262,6 +291,7 @@ public class DrawView extends View {
         {
             canStep[i][j] = 0;
         }
+        return voltMozgas;
     }
 
     public void Spawn()

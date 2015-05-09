@@ -61,7 +61,7 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
         builder.show();
 
         DW = (DrawView) findViewById(R.id.GameView);
-
+        DW.gamemode = End;
         ONOFF = (Button) findViewById(R.id.OnOff);
         ONOFF.setOnClickListener(new View.OnClickListener() {
             @Override

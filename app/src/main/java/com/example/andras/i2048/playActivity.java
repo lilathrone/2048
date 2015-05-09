@@ -190,14 +190,14 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
                 TimeToWait = 100;
                 long diffTime = (curTime - lastUpdate);
                 lastUpdate = curTime;
-                if (Math.abs(last_x - x) > 2) {
-                    if (last_x - x < -2 && !Xback) {
+                if (Math.abs(x) > 3) {
+                    if ( x > -3 && !Xback) {
                         if (DW.DoLeft())
                         DW.Spawn();
                         DW.invalidate();
                         Xback = true;
                         TimeToWait = 1500;
-                    } else if (last_x - x > 2 && !Xback) {
+                    } else if ( x < 3 && !Xback) {
                         if (DW.DoRight())
                         DW.Spawn();
                         DW.invalidate();
@@ -205,14 +205,14 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
                         TimeToWait = 1500;
                     } else if (Xback)
                         Xback = false;
-                } else if (Math.abs(last_y - y) > 2) {
-                    if (last_y - y < -2) {
+                } else if (Math.abs(y) > 3) {
+                    if (y > -3) {
                         if (DW.DoDown())
                         DW.Spawn();
                         DW.invalidate();
                         Yback = true;
                         TimeToWait = 1500;
-                    } else if (last_y - y > 2) {
+                    } else if (y < 3) {
                         if (DW.DoUp())
                         DW.Spawn();
                         DW.invalidate();

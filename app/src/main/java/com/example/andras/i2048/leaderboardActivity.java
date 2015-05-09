@@ -6,10 +6,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,11 +25,34 @@ import java.util.List;
 public class leaderboardActivity extends ActionBarActivity {
 
     ListView LV;
+    Button Del;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
+
+        LV = (ListView) findViewById(R.id.rslt);
+
+        String[] NoScores = new String[] {"No scores to display", "-----"};
+        final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, NoScores);
+        LV.setAdapter(adapter2);
+
+        Del = (Button) findViewById(R.id.del);
+        Del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //eredmenyek torlese, activity ujratoltes
+                String filePath = getFilesDir().toString() + "/scores.txt";
+                File file = new File(filePath);
+                boolean deleted = file.delete();
+                if (deleted)
+                {
+                    LV.setAdapter(adapter2);
+                    LV.invalidate();
+                }
+            }
+        });
 
         //fajlbol olvasas
         try{
@@ -59,27 +87,10 @@ public class leaderboardActivity extends ActionBarActivity {
             for (int i = 0; i < scores.length; i++)
                 scores[i] = (i + 1) + ". " + scores[i];
 
-
-
-
-
-            LV = (ListView) findViewById(R.id.rslt);
-
-            // ha a lista meg ures
-            String[] emptyList = new String[] { "Még nincsenek eredmények!" };
-            if (scores.length == 0)
-            {
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, emptyList);
-                LV.setAdapter(adapter2);
-            }
-
             //score-ok betoltese a listview-ba
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, scores);
+
             LV.setAdapter(adapter);
-
-
-
-
 
             fileInputStream.close();
 
@@ -88,10 +99,6 @@ public class leaderboardActivity extends ActionBarActivity {
         } catch(Exception ex){
             ex.printStackTrace();
         }
-
-
-
-
     }
 
 

@@ -26,10 +26,7 @@ public class leaderboardActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
 
-
-        String path = getFilesDir() + "/scores.txt";
-
-
+        //fajlbol olvasas
         try{
             FileInputStream fileInputStream = openFileInput("scores.txt");
             StringBuffer buffer = new StringBuffer();
@@ -39,14 +36,13 @@ public class leaderboardActivity extends ActionBarActivity {
                 buffer.append((char)read);
             }
 
-            Log.d("BUFFER", buffer.toString());
-
             String temp = buffer.toString();
 
+            //szetvagva a "space"-eknel
             String[] scores = temp.split(" ");
-            Log.d("SCORE1", scores[scores.length-1]);
 
 
+            //beilleszteses rendezes - csokkeno
             for (int i = 0; i < scores.length; i++)
             {
                 int x = Integer.parseInt(scores[i]);
@@ -59,13 +55,31 @@ public class leaderboardActivity extends ActionBarActivity {
                 scores[j] = Integer.toString(x);
             }
 
+            //x. score - pl 1. 2500 formatum
             for (int i = 0; i < scores.length; i++)
                 scores[i] = (i + 1) + ". " + scores[i];
 
 
+
+
+
             LV = (ListView) findViewById(R.id.rslt);
+
+            // ha a lista meg ures
+            String[] emptyList = new String[] { "Még nincsenek eredmények!" };
+            if (scores.length == 0)
+            {
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, emptyList);
+                LV.setAdapter(adapter2);
+            }
+
+            //score-ok betoltese a listview-ba
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, scores);
             LV.setAdapter(adapter);
+
+
+
+
 
             fileInputStream.close();
 

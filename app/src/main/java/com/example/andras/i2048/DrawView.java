@@ -315,6 +315,7 @@ public class DrawView extends View {
             }
         }
 
+
         Random r = new Random();
         int randomPoz = r.nextInt(emptyX.size()); //random pozicio a listabol
         int randomChance = r.nextInt(10); //random szam az eselyhez (2 v 4)
@@ -405,11 +406,12 @@ public class DrawView extends View {
             canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight() / 2 + 100, p);
             canvas.drawText("Game Over, your score:" + score, canvas.getWidth()/2 , canvas.getHeight()/4, paintScore);
 
+            //eredmenyek kiirsa belso taraloba
             String filePath = getContext().getFilesDir().toString() + "/scores.txt";
             try
             {
                 FileOutputStream outputStream = new FileOutputStream(filePath, true);
-                String Score = Integer.toString(score) + " ";
+                String Score = Integer.toString(score) + " "; //"space" elvalaszto karakter
                 outputStream.write(Score.getBytes());
                 outputStream.close();
             }

@@ -1,18 +1,82 @@
 package com.example.andras.i2048;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class leaderboardActivity extends ActionBarActivity {
+
+    ListView LV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
+
+
+        String path = getFilesDir() + "/scores.txt";
+
+
+        try{
+            FileInputStream fileInputStream = openFileInput("scores.txt");
+            StringBuffer buffer = new StringBuffer();
+            int read = -1;
+            while ((read = fileInputStream.read()) != -1)
+            {
+                buffer.append((char)read);
+            }
+
+            Log.d("BUFFER", buffer.toString());
+
+            String temp = buffer.toString();
+
+            String[] scores = temp.split(" ");
+            Log.d("SCORE1", scores[scores.length-1]);
+
+
+            for (int i = 0; i < scores.length; i++)
+            {
+                int x = Integer.parseInt(scores[i]);
+                int j = i;
+                while (j > 0 && Integer.parseInt(scores[j-1]) < x)
+                {
+                    scores[j] = scores[j-1];
+                    j = j - 1;
+                }
+                scores[j] = Integer.toString(x);
+            }
+
+            for (int i = 0; i < scores.length; i++)
+                scores[i] = (i + 1) + ". " + scores[i];
+
+
+            LV = (ListView) findViewById(R.id.rslt);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, scores);
+            LV.setAdapter(adapter);
+
+            fileInputStream.close();
+
+        } catch(OutOfMemoryError om){
+            om.printStackTrace();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+
+
 
     }
 

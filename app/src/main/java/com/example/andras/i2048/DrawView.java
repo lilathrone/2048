@@ -10,6 +10,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -365,8 +368,20 @@ public class DrawView extends View {
             paintScore.setColor(Color.BLACK);
             paintScore.setTextAlign(Paint.Align.CENTER);
             paintScore.setTextSize(20);
-            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight()/2 + 100, p);
+            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight() / 2 + 100, p);
             canvas.drawText("Game Over, your score:" + score, canvas.getWidth()/2 , canvas.getHeight()/4, paintScore);
+
+            String filePath = getContext().getFilesDir().toString() + "/scores.txt";
+            try
+            {
+                FileOutputStream outputStream = new FileOutputStream(filePath, true);
+                String Score = Integer.toString(score) + " ";
+                outputStream.write(Score.getBytes());
+                outputStream.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
     }

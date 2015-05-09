@@ -28,6 +28,17 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
+
+        <Button
+            android:layout_row="1"
+            android:layout_column="1"
+            android:id="@+id/OnOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="On"
+            android:background="#00ff00"
+            />
+
         <Button
             android:layout_row="0"
             android:layout_column="1"

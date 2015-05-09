@@ -31,7 +31,8 @@
         <activity
             android:name=".leaderboardActivity"
             android:label="@string/title_activity_leaderboard"
-            android:parentActivityName=".menuActivity" >
+            android:parentActivityName=".menuActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.andras.i2048.menuActivity" />
@@ -39,7 +40,8 @@
         <activity
             android:name=".playActivity"
             android:label="@string/title_activity_play"
-            android:parentActivityName=".menuActivity" >
+            android:parentActivityName=".menuActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.andras.i2048.menuActivity" />

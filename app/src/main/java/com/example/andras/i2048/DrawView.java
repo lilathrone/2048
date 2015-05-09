@@ -147,10 +147,10 @@ public class DrawView extends View {
         if (i < 3 && gameBoard[i + 1][j] == gameBoard[i][j] && mask[i + 1][j] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1) {
             voltMozgas = true; //Van mozgás, tehát majd érvényes volt a lépés, spawnolni kell új mezőt majd az iteráció végén
             gameBoard[i + 1][j] += gameBoard[i][j]; //összevonás
-            if (gamemode == 0)
-                gameOver = gameBoard[i + 1][j] == 1024 ? true : false;
-            else if (gamemode == 1)
-                gameOver = gameBoard[i + 1][j] == 2048 ? true : false;
+            if (gamemode == 1024)
+                if (gameOver = gameBoard[i + 1][j] == 1024) gameOver = true;
+            else if (gamemode == 2048)
+                    if (gameOver = gameBoard[i + 1][j] == 2048) gameOver = true;
             score += gameBoard[i][j]; //Pontszám növelés
             gameBoard[i][j] = 0; //Jelenlegi mező kinullázása
             mask[i + 1][j] = -1; //Maszk tömbön jelezni kell, hogy a szomszédos elemet már nem lehet felülírni mégegyszer
@@ -193,10 +193,10 @@ public class DrawView extends View {
         if (j < 3 && gameBoard[i][j + 1] == gameBoard[i][j] && mask[i][j + 1] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1) {
             voltMozgas = true;
             gameBoard[i][j + 1] += gameBoard[i][j];
-            if (gamemode == 0)
-                gameOver = gameBoard[i][j+1] == 1024 ? true : false;
-            else if (gamemode == 1)
-                gameOver = gameBoard[i][j+1] == 2048 ? true : false;
+            if (gamemode == 1024)
+                if (gameOver = gameBoard[i][j+1] == 1024) gameOver = true;
+            else if (gamemode == 2048)
+                    if (gameOver = gameBoard[i][j+1] == 2048) gameOver = true;
             score += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i][j + 1] = -1;
@@ -218,10 +218,10 @@ public class DrawView extends View {
         if (i > 0 && gameBoard[i - 1][j] == gameBoard[i][j] && mask[i - 1][j] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1) {
             voltMozgas = true;
             gameBoard[i - 1][j] += gameBoard[i][j];
-            if (gamemode == 0)
-                gameOver = gameBoard[i - 1][j] == 1024 ? true : false;
-            else if (gamemode == 1)
-                gameOver = gameBoard[i - 1][j] == 2048 ? true : false;
+            if (gamemode == 1024)
+                if (gameOver = gameBoard[i - 1][j] == 1024) gameOver = true;
+            else if (gamemode == 2048)
+                if (gameOver = gameBoard[i - 1][j] == 2048) gameOver = true;
             score += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i - 1][j] = -1;
@@ -243,10 +243,10 @@ public class DrawView extends View {
         if (j > 0 && gameBoard[i][j - 1] == gameBoard[i][j] && mask[i][j - 1] != -1 && gameBoard[i][j] != 0 && mask[i][j] != -1) {
             voltMozgas = true;
             gameBoard[i][j - 1] += gameBoard[i][j];
-            if (gamemode == 0)
-                gameOver = gameBoard[i][j-1] == 1024 ? true : false;
-            else if (gamemode == 1)
-                gameOver = gameBoard[i][j-1] == 2048 ? true : false;
+            if (gamemode == 1024)
+                if (gameOver = gameBoard[i][j-1] == 1024) gameOver = true;
+            else if (gamemode == 2048)
+                 if (gameOver = gameBoard[i][j-1] == 2048) gameOver = true;
             score += gameBoard[i][j];
             gameBoard[i][j] = 0;
             mask[i][j - 1] = -1;
@@ -304,7 +304,7 @@ public class DrawView extends View {
         int randomChance = r.nextInt(10); //random szam az eselyhez (2 v 4)
 
         //ures mezok kozul a random helyre beszuras
-        gameBoard[emptyX.get(randomPoz)][emptyY.get(randomPoz)] = randomChance < 6 ? 2 : 4; //60% valoszinuseggel 2, 40% 4 spawnol
+        gameBoard[emptyX.get(randomPoz)][emptyY.get(randomPoz)] = randomChance < 6 ? 128 : 256; //60% valoszinuseggel 2, 40% 4 spawnol
 
         if (emptyX.size() == 1)
         {

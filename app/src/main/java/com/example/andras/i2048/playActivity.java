@@ -42,14 +42,17 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
                             case 0:
                                 text = "1024";
                                 End = 1024;
+                                DW.gamemode = 1024;
                                 break;
                             case 1:
                                 text = "2048";
                                 End = 2048;
+                                DW.gamemode = 2048;
                                 break;
                             case 2:
                                 text = "Endless";
                                 End = -1;
+                                DW.gamemode = -1;
                                 break;
                         }
 
@@ -61,7 +64,7 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
         builder.show();
 
         DW = (DrawView) findViewById(R.id.GameView);
-        DW.gamemode = End;
+
         ONOFF = (Button) findViewById(R.id.OnOff);
         ONOFF.setOnClickListener(new View.OnClickListener() {
             @Override

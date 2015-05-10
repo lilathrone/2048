@@ -319,7 +319,7 @@ public class DrawView extends View {
         int randomChance = r.nextInt(10); //random szam az eselyhez (2 v 4)
 
         //ures mezok kozul a random helyre beszuras
-        gameBoard[emptyX.get(randomPoz)][emptyY.get(randomPoz)] = randomChance < 6 ? 256 : 512; //60% valoszinuseggel 2, 40% 4 spawnol
+        gameBoard[emptyX.get(randomPoz)][emptyY.get(randomPoz)] = randomChance < 6 ? 2 : 4; //60% valoszinuseggel 2, 40% 4 spawnol
 
         if (emptyX.size() == 1)
         {

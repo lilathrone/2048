@@ -278,6 +278,7 @@ public class DrawView extends View {
         return voltMozgas;
     }
 
+    //van-e meg ervenyes lepes
     public boolean isValidStepExists()
     {
         for (int i = 0; i < 4; i++) {

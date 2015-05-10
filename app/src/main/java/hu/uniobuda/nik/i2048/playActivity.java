@@ -158,7 +158,6 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
     private Sensor gyro;
 
     private long lastUpdate = 0;
-    private float last_x, last_y, last_z;
     boolean Xback = false;
     boolean Yback = false;
 
@@ -181,6 +180,7 @@ public class playActivity extends ActionBarActivity implements SensorEventListen
                 TimeToWait = 100;
                 long diffTime = (curTime - lastUpdate);
                 lastUpdate = curTime;
+                //3as kuszob elmozdulast figyeljuk
                 if (Math.abs(x) > 3) {
                     if ( x > -3 && !Xback) {
                         if (!DW.gameOver && !DW.win)

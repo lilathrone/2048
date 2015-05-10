@@ -1,11 +1,9 @@
-package com.example.andras.i2048;
+package hu.uniobuda.nik.i2048;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+
+import com.example.andras.i2048.R;
 
 
 public class aboutActivity extends ActionBarActivity {

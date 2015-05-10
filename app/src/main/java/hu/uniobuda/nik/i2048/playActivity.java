@@ -1,7 +1,6 @@
-package com.example.andras.i2048;
+package hu.uniobuda.nik.i2048;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -11,12 +10,11 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.andras.i2048.R;
 
 
 public class playActivity extends ActionBarActivity implements SensorEventListener {

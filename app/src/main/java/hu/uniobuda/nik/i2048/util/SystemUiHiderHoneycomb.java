@@ -1,4 +1,4 @@
-package com.example.andras.i2048.util;
+package hu.uniobuda.nik.i2048.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

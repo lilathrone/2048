@@ -7,12 +7,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.andras.i2048.playActivity"
+    tools:context="hu.uniobuda.nik.i2048.playActivity"
     android:background="#00aaff"
     android:layout_margin="0dp"
     android:padding="0dp">
 
-    <com.example.andras.i2048.DrawView
+    <hu.uniobuda.nik.i2048.DrawView
         android:id="@+id/GameView"
         android:layout_margin="0dp"
         android:padding="0dp"

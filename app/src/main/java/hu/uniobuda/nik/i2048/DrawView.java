@@ -1,4 +1,4 @@
-package com.example.andras.i2048;
+package hu.uniobuda.nik.i2048;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,10 +8,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Random;

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.example.andras.i2048"
+        applicationId "hu.uniobuda.nik.i2048"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1

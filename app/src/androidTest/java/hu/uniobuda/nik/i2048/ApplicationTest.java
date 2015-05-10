@@ -1,4 +1,4 @@
-package com.example.andras.i2048;
+package hu.uniobuda.nik.i2048;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
